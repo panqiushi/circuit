@@ -1,0 +1,12 @@
+database:
+  default: postgres
+  connection:
+    postgres:
+      driver: postgres
+      host: localhost
+      port: 5432
+      database: circuit
+      username: postgres
+      password: 111111
+      schema: circuit
+      sslmode: disable
