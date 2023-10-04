@@ -8,5 +8,5 @@ database:
       database: circuit
       username: postgres
       password: 111111
-      schema: circuit
+      schema: public
       sslmode: disable

@@ -24,5 +24,8 @@ func main() {
 		}
 	})
 
-	router.Run(":8080")
+	err := router.Run("127.0.0.1:8080")
+	if err != nil {
+		return
+	}
 }

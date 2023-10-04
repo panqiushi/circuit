@@ -1,6 +1,9 @@
 package db
 
 import (
+	"os"
+	"strings"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -14,19 +17,26 @@ func DB() *gorm.DB {
 		return instance
 	}
 
+	wd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+
 	viper.SetConfigName("config")
-	viper.AddConfigPath(".")
-	if err := viper.ReadInConfig(); err != nil {
-		panic(err)
+	if strings.HasSuffix(wd, "cmd/server") {
+		viper.AddConfigPath("../..")
+	} else {
+		viper.AddConfigPath(".")
 	}
 
 	if err := viper.ReadInConfig(); err != nil {
 		panic(err)
 	}
 
-	defaultConfig := viper.GetStringMapString("database.connections." + viper.GetString("database.default"))
-	driver := defaultConfig["driver"]
-	config := "host=" + defaultConfig["host"] + " port=" + defaultConfig["port"] + " user=" + defaultConfig["user"] + " dbname=" + defaultConfig["dbname"] + " password=" + defaultConfig["password"] + " sslmode=" + defaultConfig["sslmode"]
+	// defaultConfig := viper.GetStringMapString("database")
+	driver := viper.GetString("database.default")
+	connection := viper.GetStringMapString("database.connection." + driver)
+	config := "host=" + connection["host"] + " port=" + connection["port"] + " user=" + connection["username"] + " dbname=" + connection["database"] + " password=" + connection["password"] + " sslmode=" + connection["sslmode"]
 	db, err := gorm.Open(driver, config)
 	if err != nil {
 		panic(err)
