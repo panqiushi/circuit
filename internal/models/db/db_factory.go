@@ -23,7 +23,7 @@ func DB() *gorm.DB {
 	}
 
 	viper.SetConfigName("config")
-	if strings.HasSuffix(wd, "cmd/server") {
+	if strings.HasSuffix(wd, "server") {
 		viper.AddConfigPath("../..")
 	} else {
 		viper.AddConfigPath(".")

@@ -6,11 +6,23 @@ import (
 )
 
 func CreateUser(user *models.User) (*models.User, error) {
-	dbInstance := db.DB()
-	dbInstance.AutoMigrate(&models.User{})
-	if err := dbInstance.Create(user).Error; err != nil {
+	db.DB().AutoMigrate(&models.User{})
+	if err := db.DB().Create(user).Error; err != nil {
 		return nil, err
 	}
 
 	return user, nil
+}
+
+func FindUserByFieldAndValue(field string, value interface{}) (*models.User, error) {
+	var user models.User
+	if field == "id" {
+		if err := db.DB().First(&user, value).Error; err != nil {
+			return nil, err
+		}
+
+	} else if err := db.DB().Where(field+"= ?", value).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
