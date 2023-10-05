@@ -33,7 +33,6 @@ func DB() *gorm.DB {
 		panic(err)
 	}
 
-	// defaultConfig := viper.GetStringMapString("database")
 	driver := viper.GetString("database.default")
 	connection := viper.GetStringMapString("database.connection." + driver)
 	config := "host=" + connection["host"] + " port=" + connection["port"] + " user=" + connection["username"] + " dbname=" + connection["database"] + " password=" + connection["password"] + " sslmode=" + connection["sslmode"]
