@@ -34,4 +34,8 @@ func RegisterUserRoutes(router *gin.Engine) {
 			context.JSON(200, ResponseBuilder(data, 200, "success"))
 		}
 	})
+
+	router.POST("/login", func(context *gin.Context) {
+		service.LoginHandler(context)
+	})
 }

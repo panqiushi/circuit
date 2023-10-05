@@ -2,13 +2,30 @@ package service
 
 import (
 	"errors"
+	"net/http"
+	"time"
 
 	consts "code.circuit.io/circuit/internal/const"
 	"code.circuit.io/circuit/internal/models"
 	"code.circuit.io/circuit/internal/repository"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
+
+type LoginUser struct {
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type Claims struct {
+	Username string `json:"username"`
+	jwt.StandardClaims
+}
+
+var jwtKey = []byte("73RnG8x2hLs6YpDfWvQ9Uz1cVbM5XtJnKw4FgSdAeZoPqCtH6rL0aVtB1iZw3lNfJ7sKgDm1fVhA8tH7wBfYsE9dM2hG8dQ4oZsR")
 
 func CreateUserIfNecessary(c *gin.Context) (*models.User, error) {
 	var user models.User
@@ -50,6 +67,55 @@ func CreateUserIfNecessary(c *gin.Context) (*models.User, error) {
 	}
 
 	return createdUser, nil
+}
+
+func LoginHandler(c *gin.Context) {
+	var loginUser LoginUser
+	if err := c.BindJSON(&loginUser); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	field := "email"
+	value := loginUser.Email
+	if loginUser.Email == "" {
+		field = "phone"
+		value = loginUser.Phone
+	}
+
+	user, err := repository.FindUserByFieldAndValue(field, value)
+	if err != nil && err.Error() != consts.RECORD_NOT_FOUND {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": err.Error(),
+		})
+	}
+
+	if !CheckPassword(loginUser.Password, user.HashPassword) {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "invalid password",
+		})
+		return
+	}
+
+	expirationTime := time.Now().Add(5 * time.Minute)
+	claims := &Claims{
+		Username: user.Name,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(jwtKey)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		return
+	}
+
+	c.SetCookie("token", tokenString, 3600*24, "/", "localhost", false, true)
+	c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
 }
 
 func HashPassword(password string) (string, error) {
