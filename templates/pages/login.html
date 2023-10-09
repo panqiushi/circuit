@@ -1,4 +1,4 @@
-<html>
+<html data-theme="dark">
   <head>
     <title>{{ .Title }}</title>
     <script
@@ -6,26 +6,27 @@
       integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni"
       crossorigin="anonymous"
     ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              clifford: '#da373d',
-            },
-          },
-        },
-      };
-    </script>
   </head>
 
   <body>
-    <h1 class="text-3xl font-bold underline text-clifford">
-      This is a login page
-    </h1>
-    <div>
-      <!-- TODO: -->
+    <div class="flex items-center">
+      <!-- <div class="py-4"></div> -->
+      <div class="card bg-base-100 shadow-xl h-96 w-2/3 mt-10 place-self-center">
+        <div class="card-body">
+          <h2 class="card-title place-self-center">Login</h2>
+          <p class="place-self-center">Welcom to circuit!</p>
+          <div class="card-actions place-self-center">
+            <button class="btn btn-primary">Login</button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="py-8"></div> -->
     </div>
   </body>
 </html>
