@@ -1,7 +1,7 @@
 package main
 
 import (
-	"code.circuit.io/circuit/internal/router"
+	"circuit.io/circuit/internal/router"
 )
 
 func main() {

@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/json"
 
-	"code.circuit.io/circuit/internal/service"
+	"circuit.io/circuit/internal/service"
 	"github.com/gin-gonic/gin"
 )
 

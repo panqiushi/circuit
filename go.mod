@@ -1,4 +1,4 @@
-module code.circuit.io/circuit
+module circuit.io/circuit
 
 go 1.21.1
 

@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	consts "code.circuit.io/circuit/internal/const"
-	"code.circuit.io/circuit/internal/models"
-	"code.circuit.io/circuit/internal/repository"
+	consts "circuit.io/circuit/internal/const"
+	"circuit.io/circuit/internal/models"
+	"circuit.io/circuit/internal/repository"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"

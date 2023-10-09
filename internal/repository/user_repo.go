@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"code.circuit.io/circuit/internal/models"
-	"code.circuit.io/circuit/internal/models/db"
+	"circuit.io/circuit/internal/models"
+	"circuit.io/circuit/internal/models/db"
 )
 
 func CreateUser(user *models.User) (*models.User, error) {

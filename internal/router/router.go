@@ -1,8 +1,8 @@
 package router
 
 import (
-	"code.circuit.io/circuit/internal/api"
-	"code.circuit.io/circuit/internal/web"
+	"circuit.io/circuit/internal/api"
+	"circuit.io/circuit/internal/web"
 	"github.com/gin-gonic/gin"
 )
 
