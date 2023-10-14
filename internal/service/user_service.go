@@ -14,10 +14,10 @@ import (
 )
 
 type LoginUser struct {
-	Email    string `json:"email"`
+	Email    string `json:"email" form:"email"`
 	Phone    string `json:"phone"`
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username string `json:"username" form:"username"`
+	Password string `json:"password" form:"password"`
 }
 
 type Claims struct {
@@ -29,7 +29,7 @@ var jwtKey = []byte("73RnG8x2hLs6YpDfWvQ9Uz1cVbM5XtJnKw4FgSdAeZoPqCtH6rL0aVtB1iZ
 
 func CreateUserIfNecessary(c *gin.Context) (*models.User, error) {
 	var user models.User
-	if err := c.BindJSON(&user); err != nil {
+	if err := c.Bind(&user); err != nil {
 		return nil, err
 	}
 
@@ -71,7 +71,7 @@ func CreateUserIfNecessary(c *gin.Context) (*models.User, error) {
 
 func LoginHandler(c *gin.Context) {
 	var loginUser LoginUser
-	if err := c.BindJSON(&loginUser); err != nil {
+	if err := c.Bind(&loginUser); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -137,9 +137,9 @@ func validateUser(user *models.User) error {
 		return errors.New("email is required")
 	}
 
-	if user.Phone == "" {
-		return errors.New("phone is required")
-	}
+	// if user.Phone == "" {
+	// 	return errors.New("phone is required")
+	// }
 
 	if user.Name == "" {
 		return errors.New("name is required")

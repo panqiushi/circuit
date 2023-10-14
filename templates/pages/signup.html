@@ -1,5 +1,5 @@
 <html data-theme="corporate">
-  {{ template "head.html" . }}
+  {{ template "meta_head.html" . }}
 
   <body>
     {{ template "nav_login.html" . }}
@@ -11,20 +11,37 @@
         <div class="card-body">
           <span class="place-self-center text-3xl">{{ .Welcome }}</span>
           <div class="card-actions place-self-center w-1/2 mt-20">
-            <span class="text-gray-500 text-sm">{{ .Email }}</span>
-            <input
-              type="text"
-              placeholder="{{ .Email }}"
-              class="input input-bordered w-full"
-            />
-            <span class="text-gray-500 text-sm mt-4">{{ .Password }}</span>
-            <input
-              type="text"
-              placeholder="{{ .Password }}"
-              class="input input-bordered w-full"
-            />
-            <button class="btn btn-primary w-full mt-10">{{ .SignUp }}</button>
+            <form id="signup-form" hx-boost="true" method="POST" action="/user">
+              <span class="text-gray-500 text-sm">{{ .Username }}</span>
+              <input
+                value=""
+                name="name"
+                type="text"
+                placeholder="{{ .Username }}"
+                class="input input-bordered w-full mt-2 mb-2"
+              />
+              <span class="text-gray-500 text-sm">{{ .Email }}</span>
+              <input
+                value=""
+                name="email"
+                type="text"
+                placeholder="{{ .Email }}"
+                class="input input-bordered w-full mt-2 mb-2"
+              />
+              <span class="text-gray-500 text-sm">{{ .Password }}</span>
+              <input
+                value=""
+                name="password"
+                type="text"
+                placeholder="{{ .Password }}"
+                class="input input-bordered w-full mt-2"
+              />
+              <button submit class="btn btn-primary w-full mt-10">
+                {{ .SignUp }}
+              </button>
+            </form>
           </div>
+
           <div class="place-self-center mt-4">
             <span class="text-sm">
               {{ .AlreadHaveAccount }}

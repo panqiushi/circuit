@@ -3,6 +3,8 @@
     "sign_up": "Sign Up",
     "welcome": "Welcome to circuit!",
     "or": "or",
+    "username": "Username",
     "email": "Email",
     "password": "Password",
     "already_have_account": "Already have an account?"
+}
