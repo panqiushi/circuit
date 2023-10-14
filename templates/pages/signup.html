@@ -1,4 +1,4 @@
-<html data-theme="cupcake">
+<html data-theme="corporate">
   {{ template "head.html" . }}
 
   <body>
@@ -6,7 +6,7 @@
     <div class="flex items-center mt-16 h-3/4">
       <div class="flex-1"></div>
       <div
-         class="flex-2 card rounded-2xl shadow-2xl h-full w-2/3 mt-10 place-self-center"
+        class="flex-2 card rounded-2xl shadow-2xl h-full w-2/3 mt-10 place-self-center"
       >
         <div class="card-body">
           <span class="place-self-center text-3xl">{{ .Welcome }}</span>
@@ -24,6 +24,12 @@
               class="input input-bordered w-full"
             />
             <button class="btn btn-primary w-full mt-10">{{ .SignUp }}</button>
+          </div>
+          <div class="place-self-center mt-4">
+            <span class="text-sm">
+              {{ .AlreadHaveAccount }}
+              <a class="text-sky-600" href="/login">{{ .SignIn }}</a>
+            </span>
           </div>
         </div>
       </div>
