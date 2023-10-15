@@ -69,13 +69,13 @@ func CreateUserIfNecessary(c *gin.Context) (*models.User, error) {
 	return createdUser, nil
 }
 
-func LoginHandler(c *gin.Context) {
+func LoginHandler(c *gin.Context) (int, error) {
 	var loginUser LoginUser
 	if err := c.Bind(&loginUser); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
+		// c.JSON(http.StatusBadRequest, gin.H{
+		// 	"error": err.Error(),
+		// })
+		return http.StatusBadRequest, err
 	}
 
 	field := "email"
@@ -87,16 +87,17 @@ func LoginHandler(c *gin.Context) {
 
 	user, err := repository.FindUserByFieldAndValue(field, value)
 	if err != nil && err.Error() != consts.RECORD_NOT_FOUND {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": err.Error(),
-		})
+		// c.JSON(http.StatusNotFound, gin.H{
+		// 	"error": err.Error(),
+		// })
+		return http.StatusNotFound, err
 	}
 
 	if !CheckPassword(loginUser.Password, user.HashPassword) {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "invalid password",
-		})
-		return
+		// c.JSON(http.StatusUnauthorized, gin.H{
+		// 	"error": "invalid password",
+		// })
+		return http.StatusUnauthorized, errors.New("invalid password")
 	}
 
 	expirationTime := time.Now().Add(5 * time.Minute)
@@ -110,12 +111,14 @@ func LoginHandler(c *gin.Context) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
-		return
+		// c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		return http.StatusInternalServerError, errors.New("failed to generate token")
 	}
 
 	c.SetCookie("token", tokenString, 3600*24, "/", "localhost", false, true)
-	c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
+	// c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
+	// c.Redirect(http.StatusPermanentRedirect, "/dashboard")
+	return http.StatusOK, nil
 }
 
 func HashPassword(password string) (string, error) {

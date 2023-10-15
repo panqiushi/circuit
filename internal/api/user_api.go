@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"net/http"
 
 	"circuit.io/circuit/internal/service"
 	"github.com/gin-gonic/gin"
@@ -31,11 +32,19 @@ func RegisterUserRoutes(router *gin.Engine) {
 			}
 			delete(data, "Password")
 			delete(data, "HashPassword")
-			context.JSON(200, ResponseBuilder(data, 200, "success"))
+			// context.JSON(200, ResponseBuilder(data, 200, "success"))
+			context.Redirect(http.StatusMovedPermanently, "/login")
 		}
 	})
 
 	router.POST("/login", func(context *gin.Context) {
-		service.LoginHandler(context)
+		code, err := service.LoginHandler(context)
+		if err != nil {
+			context.JSON(code, gin.H{
+				"error": err.Error(),
+			})
+		} else {
+			context.Redirect(http.StatusMovedPermanently, "/dashboard")
+		}
 	})
 }
