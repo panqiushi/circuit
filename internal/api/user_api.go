@@ -32,7 +32,6 @@ func RegisterUserRoutes(router *gin.Engine) {
 			}
 			delete(data, "Password")
 			delete(data, "HashPassword")
-			// context.JSON(200, ResponseBuilder(data, 200, "success"))
 			context.Redirect(http.StatusMovedPermanently, "/login")
 		}
 	})

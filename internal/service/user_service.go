@@ -72,9 +72,6 @@ func CreateUserIfNecessary(c *gin.Context) (*models.User, error) {
 func LoginHandler(c *gin.Context) (int, error) {
 	var loginUser LoginUser
 	if err := c.Bind(&loginUser); err != nil {
-		// c.JSON(http.StatusBadRequest, gin.H{
-		// 	"error": err.Error(),
-		// })
 		return http.StatusBadRequest, err
 	}
 
@@ -87,16 +84,10 @@ func LoginHandler(c *gin.Context) (int, error) {
 
 	user, err := repository.FindUserByFieldAndValue(field, value)
 	if err != nil && err.Error() != consts.RECORD_NOT_FOUND {
-		// c.JSON(http.StatusNotFound, gin.H{
-		// 	"error": err.Error(),
-		// })
 		return http.StatusNotFound, err
 	}
 
 	if !CheckPassword(loginUser.Password, user.HashPassword) {
-		// c.JSON(http.StatusUnauthorized, gin.H{
-		// 	"error": "invalid password",
-		// })
 		return http.StatusUnauthorized, errors.New("invalid password")
 	}
 
@@ -111,13 +102,10 @@ func LoginHandler(c *gin.Context) (int, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
-		// c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return http.StatusInternalServerError, errors.New("failed to generate token")
 	}
 
 	c.SetCookie("token", tokenString, 3600*24, "/", "localhost", false, true)
-	// c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
-	// c.Redirect(http.StatusPermanentRedirect, "/dashboard")
 	return http.StatusOK, nil
 }
 
