@@ -6,12 +6,10 @@
     {{ template "nav_login.html" . }}
     <div class="flex items-center mt-4 h-4/5">
       <div class="flex-1"></div>
-      <div
-        class="flex-2 card rounded-2xl shadow-2xl h-full w-2/3 mt-4 place-self-center"
-      >
-        <div class="card-body">
-          <span class="place-self-center text-3xl">{{ .Welcome }}</span>
-          <div class="card-actions place-self-center w-1/2 mt-20">
+      <div class="flex-2 card rounded-2xl shadow-2xl h-full w-2/3 mt-4">
+        <div class="card-body place-items-center">
+          <span class="text-3xl">{{ .Welcome }}</span>
+          <div class="card-actions w-1/2 mt-20">
             <form id="signup-form" hx-boost="true" method="POST" action="/user">
               <span class="text-gray-500 text-sm">{{ .Username }}</span>
               <input
@@ -43,7 +41,7 @@
             </form>
           </div>
 
-          <div class="place-self-center mt-4">
+          <div class="mt-4">
             <span class="text-sm">
               {{ .AlreadHaveAccount }}
               <a class="text-sky-600" href="/login">{{ .SignIn }}</a>
