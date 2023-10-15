@@ -12,8 +12,9 @@ import (
 func RegisterHomePageRoutes(router *gin.Engine) {
 
 	router.GET("/", service.AuthMiddleware(), func(context *gin.Context) {
-		localizer := context.MustGet("localizer").(*i18n.Localizer)
-		context.HTML(http.StatusOK, "home.html", getData(*localizer))
+		// localizer := context.MustGet("localizer").(*i18n.Localizer)
+		// context.HTML(http.StatusOK, "home.html", getData(*localizer))
+		context.Redirect(http.StatusMovedPermanently, "/dashboard")
 	})
 
 	router.GET("/dashboard", service.AuthMiddleware(), func(context *gin.Context) {
