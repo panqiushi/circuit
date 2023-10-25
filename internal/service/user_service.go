@@ -105,7 +105,7 @@ func LoginHandler(c *gin.Context) (int, error) {
 		return http.StatusInternalServerError, errors.New("failed to generate token")
 	}
 
-	c.SetCookie("token", tokenString, 3600*24, "/", "localhost", false, true)
+	c.SetCookie("token", tokenString, 3600*24, "/", "", false, true)
 	return http.StatusOK, nil
 }
 

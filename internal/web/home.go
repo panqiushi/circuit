@@ -14,10 +14,10 @@ func RegisterHomePageRoutes(router *gin.Engine) {
 	router.GET("/", service.AuthMiddleware(), func(context *gin.Context) {
 		// localizer := context.MustGet("localizer").(*i18n.Localizer)
 		// context.HTML(http.StatusOK, "home.html", getData(*localizer))
-		context.Redirect(http.StatusMovedPermanently, "/dashboard")
+		context.Redirect(http.StatusMovedPermanently, "/dash")
 	})
 
-	router.GET("/dashboard", service.AuthMiddleware(), func(context *gin.Context) {
+	router.GET("/dash", service.AuthMiddleware(), func(context *gin.Context) {
 		localizer := context.MustGet("localizer").(*i18n.Localizer)
 		context.HTML(http.StatusOK, "home.html", getData(*localizer))
 	})

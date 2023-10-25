@@ -6,7 +6,6 @@ import (
 )
 
 func CreateUser(user *models.User) (*models.User, error) {
-	db.DB().AutoMigrate(&models.User{})
 	if err := db.DB().Create(user).Error; err != nil {
 		return nil, err
 	}

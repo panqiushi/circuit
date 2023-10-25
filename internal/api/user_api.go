@@ -43,7 +43,7 @@ func RegisterUserRoutes(router *gin.Engine) {
 				"error": err.Error(),
 			})
 		} else {
-			context.Redirect(http.StatusMovedPermanently, "/dashboard")
+			context.Redirect(http.StatusMovedPermanently, "/dash")
 		}
 	})
 }

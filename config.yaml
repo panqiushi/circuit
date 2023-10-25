@@ -1,5 +1,5 @@
 database:
-  default: postgres
+  default: sqlite
   connection:
     postgres:
       driver: postgres
@@ -10,3 +10,7 @@ database:
       password: 111111
       schema: public
       sslmode: disable
+    sqlite:
+      driver: sqlite
+      database: ./circuit.db
+      schema: public

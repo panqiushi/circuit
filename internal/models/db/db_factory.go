@@ -4,10 +4,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"circuit.io/circuit/internal/models"
 	"github.com/spf13/viper"
+	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 var instance *gorm.DB
@@ -34,12 +35,26 @@ func DB() *gorm.DB {
 	}
 
 	driver := viper.GetString("database.default")
-	connection := viper.GetStringMapString("database.connection." + driver)
-	config := "host=" + connection["host"] + " port=" + connection["port"] + " user=" + connection["username"] + " dbname=" + connection["database"] + " password=" + connection["password"] + " sslmode=" + connection["sslmode"]
-	db, err := gorm.Open(driver, config)
-	if err != nil {
-		panic(err)
+	if driver == "postgres" {
+		connection := viper.GetStringMapString("database.connection." + driver)
+		config := "host=" + connection["host"] + " port=" + connection["port"] + " user=" + connection["username"] + " dbname=" + connection["database"] + " password=" + connection["password"] + " sslmode=" + connection["sslmode"]
+		db, err := gorm.Open(postgres.Open(config), &gorm.Config{})
+		if err != nil {
+			panic(err)
+		}
+		instance = db
 	}
-	instance = db
+
+	if driver == "sqlite" {
+		database := viper.GetString("database.connection." + driver + ".database")
+		db, err := gorm.Open(sqlite.Open(database), &gorm.Config{})
+		if err != nil {
+			panic(err)
+		}
+		instance = db
+	}
+
+	instance.AutoMigrate(&models.User{})
+
 	return instance
 }
