@@ -4,5 +4,6 @@
 vendor
 
 *.exe
+__*bin*
 
 node_modules
