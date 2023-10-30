@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html data-theme="corporate">
-    {{ template "meta_head.html" . }}
+  {{ template "meta_head.html" . }}
 
-    <body>
-        {{ template "nav_main.html" . }}
-    </body>
+  <body>
+    <div>
+      <div class="float-left">{{ template "side_menu.html" . }}</div>
+      <div class="float-right">{{ template "nav_main.html" . }}</div>
+    </div>
+  </body>
 </html>
