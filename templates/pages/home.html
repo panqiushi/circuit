@@ -3,9 +3,11 @@
   {{ template "meta_head.html" . }}
 
   <body>
-    <div>
-      <div class="float-left">{{ template "side_menu.html" . }}</div>
-      <div class="float-right">{{ template "nav_main.html" . }}</div>
+    <div class="flex h-screen">
+      {{ template "side_menu.html" . }} {{ template "nav_main.html" . }}
+    </div>
+    <div class="flex-1 bg-gray-100">
+      <div class="container mx-auto py-8">CONTENT</div>
     </div>
   </body>
 </html>
