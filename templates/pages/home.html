@@ -3,11 +3,16 @@
   {{ template "meta_head.html" . }}
 
   <body>
-    <div class="flex h-screen">
-      {{ template "side_menu.html" . }} {{ template "nav_main.html" . }}
-    </div>
-    <div class="flex-1 bg-gray-100">
-      <div class="container mx-auto py-8">CONTENT</div>
+    <div class="flex h-screen bg-gray-200">
+      {{ template "side_menu.html" . }}
+
+      <div class="flex flex-col flex-1 overflow-hidden">
+        {{ template "nav_main.html" . }}
+
+        <main class="flex-1 p-10 text-2xl font-semibold text-gray-800">
+          Content goes here...
+        </main>
+      </div>
     </div>
   </body>
 </html>
