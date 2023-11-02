@@ -41,4 +41,16 @@ func RegisterProjectRouters(router *gin.Engine) {
 			context.JSON(http.StatusOK, createdProject)
 		}
 	})
+
+	router.GET("/project/:name", service.AuthMiddleware(), func(context *gin.Context) {
+		name := context.Param("name")
+		project, err := repository.FindProjectByName(name)
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+		} else {
+			context.JSON(http.StatusOK, project)
+		}
+	})
 }
