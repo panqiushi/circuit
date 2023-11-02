@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"net/http"
+	"strconv"
 	"time"
 
 	consts "circuit.io/circuit/internal/const"
@@ -106,6 +107,8 @@ func LoginHandler(c *gin.Context) (int, error) {
 	}
 
 	c.SetCookie("token", tokenString, 3600*24, "/", "", false, true)
+	c.SetCookie("userName", user.Name, 3600*24, "/", "", false, true)
+	c.SetCookie("userId", strconv.FormatUint(uint64(user.ID), 10), 3600*24, "/", "", false, true)
 	return http.StatusOK, nil
 }
 
