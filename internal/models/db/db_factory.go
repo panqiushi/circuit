@@ -1,6 +1,7 @@
 package db
 
 import (
+	"log"
 	"os"
 	"strings"
 
@@ -54,7 +55,17 @@ func DB() *gorm.DB {
 		instance = db
 	}
 
-	instance.AutoMigrate(&models.User{})
+	if err := instance.AutoMigrate(&models.User{}); err != nil {
+		log.Println(err)
+	}
+
+	if err := instance.AutoMigrate(&models.Project{}); err != nil {
+		log.Println(err)
+	}
+
+	if err := instance.AutoMigrate(&models.VersionRelease{}); err != nil {
+		log.Println(err)
+	}
 
 	return instance
 }

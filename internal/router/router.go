@@ -33,6 +33,7 @@ func init() {
 	Router.Static("/assets", "./assets")
 
 	api.RegisterUserRoutes(Router)
+	api.RegisterProjectRouters(Router)
 	web.RegisterLoginPageRoutes(Router)
 	web.RegisterHomePageRoutes(Router)
 }

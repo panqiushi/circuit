@@ -4,7 +4,6 @@ go 1.21.1
 
 require (
 	github.com/gin-gonic/gin v1.9.1
-	github.com/jinzhu/gorm v1.9.16
 	github.com/spf13/viper v1.16.0
 	golang.org/x/crypto v0.13.0
 )
@@ -24,7 +23,7 @@ require (
 	github.com/nicksnyder/go-i18n/v2 v2.2.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/urfave/cli v1.22.14 // indirect
-	gorm.io/gorm v1.25.2-0.20230530020048-26663ab9bf55 // indirect
+	gorm.io/gorm v1.25.5 // indirect
 )
 
 require (
