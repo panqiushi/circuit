@@ -9,3 +9,7 @@ __*bin*
 
 node_modules
 tmp
+
+.nuxt
+.output
+dist

@@ -30,7 +30,10 @@ func init() {
 	})
 
 	Router.LoadHTMLGlob("templates/**/*")
-	Router.Static("/assets", "./assets")
+	// Router.Static("/assets", "./frontend/dist/assets")
+	Router.Static("/page", "./frontend/dist")
+	Router.Static("/_nuxt", "./frontend/dist/_nuxt")
+	Router.Static("/_payload.json", "./frontend/dist/_payload.json")
 
 	api.RegisterUserRoutes(Router)
 	api.RegisterProjectRouters(Router)
