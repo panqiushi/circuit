@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme="corporate">
+<html data-theme="{{ .Theme }}">
   <head>
     <title>{{ .ProjectList }}</title>
     {{ template "meta_head.html" . }}
@@ -23,8 +23,15 @@
             <div class="rounded-2xl place-items-center">
               <dialog id="create_project_dialog" class="modal">
                 <div class="modal-box">
+                  <form method="dialog">
+                    <button
+                      class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                    >
+                      ✕
+                    </button>
+                  </form>
                   <h3 class="font-bold text-lg">{{ .CreateProject }}</h3>
-                  <div class="modal-action">
+                  <div class="modal-action items-center">
                     <form
                       method="POST"
                       id="create-project-form"
@@ -48,21 +55,25 @@
                         class="input input-bordered w-full mt-2 mb-2"
                       ></textarea>
                       <div class="flex">
-                        <button submit class="flex-1 btn btn-primary mt-4">
+                        <div class="flex-1"></div>
+                        <button
+                          submit
+                          class="flex-1 btn btn-primary mt-4"
+                        >
                           {{ .Confirm }}
                         </button>
                         <div class="flex-1"></div>
-                        <button class="flex-1 btn mt-4">Close</button>
                       </div>
                       <!-- if there is a button in form, it will close the modal -->
                     </form>
+                    <!-- <button class="flex-1 btn mt-4">Close</button> -->
                   </div>
                 </div>
               </dialog>
             </div>
           </div>
           <div class="card rounded-2xl shadow-2xl h-full w-full mt-2">
-            <div class="card-body place-items-center">
+            <div class="card-body">
               <div class="card-actions w-full">
                 <table class="table border">
                   <thead>

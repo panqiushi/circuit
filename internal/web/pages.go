@@ -52,6 +52,7 @@ func RegisterWebPageRoutes(router *gin.Engine) {
 
 func getData(localizer i18n.Localizer) gin.H {
 	return gin.H{
+		"Theme":             "darcula",
 		"SignIn":            localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "sign_in"}),
 		"SignUp":            localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "sign_up"}),
 		"Welcome":           localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "welcome"}),
