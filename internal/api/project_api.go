@@ -53,4 +53,15 @@ func RegisterProjectRouters(router *gin.Engine) {
 			context.JSON(http.StatusOK, project)
 		}
 	})
+
+	router.GET("/projects/all", service.AuthMiddleware(), func(context *gin.Context) {
+		projects, err := repository.FindAll()
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+		} else {
+			context.JSON(http.StatusOK, projects)
+		}
+	})
 }

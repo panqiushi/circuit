@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html data-theme="corporate">
-  {{ template "meta_head.html" . }}
+  <head>
+    <title>{{ .SignIn }}</title>
+    {{ template "meta_head.html" . }}
+  </head>
 
   <body>
     {{ template "nav_login.html" . }}

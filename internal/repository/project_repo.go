@@ -13,7 +13,7 @@ func CreateProject(project *models.Project) (*models.Project, error) {
 	return project, nil
 }
 
-func FindProjectById(id uint) (*models.Project, error) {
+func FindProjecptById(id uint) (*models.Project, error) {
 	var project models.Project
 	if err := db.DB().First(&project, id).Error; err != nil {
 		return nil, err
@@ -27,4 +27,12 @@ func FindProjectByName(name string) (*models.Project, error) {
 		return nil, err
 	}
 	return &project, nil
+}
+
+func FindAll() ([]models.Project, error) {
+	var projects []models.Project
+	if err := db.DB().Preload("User").Find(&projects).Error; err != nil {
+		return nil, err
+	}
+	return projects, nil
 }

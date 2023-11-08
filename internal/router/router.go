@@ -34,6 +34,5 @@ func init() {
 
 	api.RegisterUserRoutes(Router)
 	api.RegisterProjectRouters(Router)
-	web.RegisterLoginPageRoutes(Router)
-	web.RegisterHomePageRoutes(Router)
+	web.RegisterWebPageRoutes(Router)
 }

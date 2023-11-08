@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html data-theme="corporate">
+  <head>
+    <title>{{ .ProjectList }}</title>
+    {{ template "meta_head.html" . }}
+  </head>
+
+  <body>
+    <div class="flex h-screen">
+      {{ template "side_menu.html" . }}
+
+      <div class="flex flex-col flex-1 overflow-hidden">
+        {{ template "nav_main.html" . }}
+
+        <main class="flex-1 p-5">
+          <div>
+            <button
+              class="btn btn-primary rounded-full"
+              onclick="create_project_dialog.showModal()"
+            >
+              {{ .CreateProject }}
+            </button>
+            <div class="rounded-2xl place-items-center">
+              <dialog id="create_project_dialog" class="modal">
+                <div class="modal-box">
+                  <h3 class="font-bold text-lg">{{ .CreateProject }}</h3>
+                  <div class="modal-action">
+                    <form
+                      method="POST"
+                      id="create-project-form"
+                      hx-boost="true"
+                      action="/project"
+                    >
+                      <span class="text-sm">{{ .ProjectName }}</span>
+                      <input
+                        value=""
+                        name="name"
+                        type="text"
+                        placeholder="{{ .ProjectName }}"
+                        class="input input-bordered w-full mt-2 mb-2"
+                      />
+                      <span class="text-sm">{{ .ProjectDesc }}</span>
+                      <textarea
+                        value=""
+                        name="description"
+                        type="textarea"
+                        placeholder="{{ .ProjectDesc }}"
+                        class="input input-bordered w-full mt-2 mb-2"
+                      ></textarea>
+                      <div class="flex">
+                        <button submit class="flex-1 btn btn-primary mt-4">
+                          {{ .Confirm }}
+                        </button>
+                        <div class="flex-1"></div>
+                        <button class="flex-1 btn mt-4">Close</button>
+                      </div>
+                      <!-- if there is a button in form, it will close the modal -->
+                    </form>
+                  </div>
+                </div>
+              </dialog>
+            </div>
+          </div>
+          <div class="card rounded-2xl shadow-2xl h-full w-full mt-2">
+            <div class="card-body place-items-center">
+              <div class="card-actions w-full">
+                <table class="table border">
+                  <thead>
+                    <tr>
+                      <th class="border">ID</th>
+                      <th class="border">{{ .ProjectName }}</th>
+                      <th class="border">{{ .ProjectDesc }}</th>
+                      <th class="border">创建人</th>
+                      <th class="border">创建时间</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- row 1 -->
+                    {{range .Projects}}
+                    <tr>
+                      <th class="border">{{ .ID }}</th>
+                      <td class="border">{{ .Name }}</td>
+                      <td class="border">{{ .Desc }}</td>
+                      <td class="border">{{ .User.Name }}</td>
+                      <td class="border">{{ .CreatedAt }}</td>
+                    </tr>
+                    {{end}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

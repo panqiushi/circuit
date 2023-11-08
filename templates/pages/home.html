@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html data-theme="corporate">
-  {{ template "meta_head.html" . }}
+  <head>
+    <title>{{ .Home }}</title>
+    {{ template "meta_head.html" . }}
+  </head>
 
   <body>
     <div class="flex h-screen bg-gray-200">

@@ -6,5 +6,12 @@
     "username": "Username",
     "email": "Email",
     "password": "Password",
-    "already_have_account": "Already have an account?"
+    "already_have_account": "Already have an account?",
+    "home": "Home",
+    "project": "Project",
+    "create_project": "Create Project",
+    "project_name": "Project Name",
+    "project_description": "Project Description",
+    "project_list": "Project List",
+    "confirm": "Confirm"
 }

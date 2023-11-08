@@ -1,12 +1,12 @@
-<div class="flex bg-amber-200 flex-col w-1/5">
+<div class="flex bg-transparent flex-col w-1/5">
   <div>
     <a class="btn btn-ghost normal-case text-2xl">CIRCUIT</a>
   </div>
   <ul class="menu">
     <li>
-      <h1 class="menu-title">Project</h1>
+      <h1 class="menu-title">{{ .Project }}</h1>
       <ul>
-        <li><a class="text-slate-700">Create Project</a></li>
+        <li><a href="/projects">{{ .ProjectList }}</a></li>
       </ul>
     </li>
   </ul>
