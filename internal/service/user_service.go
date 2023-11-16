@@ -145,3 +145,27 @@ func validateUser(user *models.User) error {
 
 	return nil
 }
+
+func GetUserProjects(c *gin.Context) (int, []models.Project, error) {
+	userId, err := c.Cookie("userId")
+	if err != nil {
+		return http.StatusUnauthorized, nil, err
+	}
+
+	uid, err := strconv.ParseUint(userId, 10, 64)
+	if err != nil {
+		return http.StatusInternalServerError, nil, err
+	}
+
+	user, err := repository.FindUserById(uint(uid))
+	if err != nil {
+		return http.StatusInternalServerError, nil, err
+	}
+
+	projects, err := repository.FindUserProjects(user)
+	if err != nil {
+		return http.StatusInternalServerError, nil, err
+	}
+
+	return http.StatusOK, projects, nil
+}

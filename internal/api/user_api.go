@@ -46,4 +46,15 @@ func RegisterUserRoutes(router *gin.Engine) {
 			context.Redirect(http.StatusMovedPermanently, "/dash")
 		}
 	})
+
+	router.GET("/user/projects", service.AuthMiddleware(), func(context *gin.Context) {
+		code, projects, err := service.GetUserProjects(context)
+		if err != nil {
+			context.JSON(code, gin.H{
+				"error": err.Error(),
+			})
+		} else {
+			context.JSON(code, projects)
+		}
+	})
 }

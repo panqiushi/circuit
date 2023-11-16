@@ -25,3 +25,19 @@ func FindUserByFieldAndValue(field string, value interface{}) (*models.User, err
 	}
 	return &user, nil
 }
+
+func FindUserById(id uint) (*models.User, error) {
+	var user models.User
+	if err := db.DB().First(&user, id).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
+func FindUserProjects(user *models.User) ([]models.Project, error) {
+	var projects []models.Project
+	if err := db.DB().Model(user).Association("Projects").Find(&projects); err != nil {
+		return nil, err
+	}
+	return projects, nil
+}

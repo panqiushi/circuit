@@ -36,3 +36,10 @@ func FindAll() ([]models.Project, error) {
 	}
 	return projects, nil
 }
+
+func AddMemberToProject(project *models.Project, user *models.User) (*models.Project, error) {
+	if err := db.DB().Model(project).Association("Users").Append(user); err != nil {
+		return nil, err
+	}
+	return project, nil
+}
