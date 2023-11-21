@@ -8,6 +8,8 @@
     "password": "密码",
     "already_have_account": "已有账号？",
     "home": "首页",
+    "dashboard": "工作台",
+    "version_release": "版本",
     "project": "项目",
     "create_project": "创建项目",
     "project_name": "项目名称",

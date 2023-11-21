@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -166,6 +167,6 @@ func GetUserProjects(c *gin.Context) (int, []models.Project, error) {
 	if err != nil {
 		return http.StatusInternalServerError, nil, err
 	}
-
+	log.Default().Println("Projects: ", projects)
 	return http.StatusOK, projects, nil
 }

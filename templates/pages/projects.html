@@ -93,7 +93,7 @@
                       <td class="border">{{ .Name }}</td>
                       <td class="border">{{ .Desc }}</td>
                       <td class="border">{{ .User.Name }}</td>
-                      <td class="border">{{ .CreatedAt }}</td>
+                      <td class="border">{{ .CreatedAt.Format "2006-01-02 15:04:05" }}</td>
                     </tr>
                     {{end}}
                   </tbody>

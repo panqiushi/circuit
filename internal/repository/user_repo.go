@@ -36,7 +36,7 @@ func FindUserById(id uint) (*models.User, error) {
 
 func FindUserProjects(user *models.User) ([]models.Project, error) {
 	var projects []models.Project
-	if err := db.DB().Model(user).Association("Projects").Find(&projects); err != nil {
+	if err := db.DB().Preload("User").Preload("Users").Model(user).Association("Projects").Find(&projects); err != nil {
 		return nil, err
 	}
 	return projects, nil

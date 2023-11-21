@@ -29,9 +29,9 @@ func FindProjectByName(name string) (*models.Project, error) {
 	return &project, nil
 }
 
-func FindAll() ([]models.Project, error) {
+func FindAllProject() ([]models.Project, error) {
 	var projects []models.Project
-	if err := db.DB().Preload("Users").Find(&projects).Error; err != nil {
+	if err := db.DB().Preload("User").Preload("Users").Find(&projects).Error; err != nil {
 		return nil, err
 	}
 	return projects, nil

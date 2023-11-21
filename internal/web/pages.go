@@ -31,15 +31,10 @@ func RegisterWebPageRoutes(router *gin.Engine) {
 		context.HTML(http.StatusOK, "home.html", getData(*localizer))
 	})
 
-	// router.GET("/project/create", service.AuthMiddleware(), func(context *gin.Context) {
-	// 	localizer := context.MustGet("localizer").(*i18n.Localizer)
-	// 	context.HTML(http.StatusOK, "create_project.html", getData(*localizer))
-	// })
-
 	router.GET("/projects", service.AuthMiddleware(), func(context *gin.Context) {
 		localizer := context.MustGet("localizer").(*i18n.Localizer)
 		data := getData(*localizer)
-		projects, err := repository.FindAll()
+		projects, err := repository.FindAllProject()
 		if err != nil {
 			context.JSON(http.StatusInternalServerError, gin.H{
 				"error": err.Error(),
@@ -52,7 +47,7 @@ func RegisterWebPageRoutes(router *gin.Engine) {
 
 func getData(localizer i18n.Localizer) gin.H {
 	return gin.H{
-		"Theme":             "darcula",
+		"Theme":             "dark",
 		"SignIn":            localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "sign_in"}),
 		"SignUp":            localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "sign_up"}),
 		"Welcome":           localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "welcome"}),
@@ -61,6 +56,8 @@ func getData(localizer i18n.Localizer) gin.H {
 		"Password":          localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "password"}),
 		"AlreadHaveAccount": localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "already_have_account"}),
 		"Home":              localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "home"}),
+		"Dashboard":         localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "dashboard"}),
+		"VersionRelease":    localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "version_release"}),
 		"Username":          localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "username"}),
 		"ProjectName":       localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "project_name"}),
 		"ProjectDesc":       localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "project_description"}),

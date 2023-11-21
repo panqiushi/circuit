@@ -8,6 +8,8 @@
     "password": "Password",
     "already_have_account": "Already have an account?",
     "home": "Home",
+    "dashboard": "Dashboard",
+    "version_release": "Version Release",
     "project": "Project",
     "create_project": "Create Project",
     "project_name": "Project Name",

@@ -11,13 +11,13 @@ import (
 
 func RegisterProjectRouters(router *gin.Engine) {
 	router.POST("/project", service.AuthMiddleware(), func(context *gin.Context) {
-		code, project, err := service.CreateProject(context)
-		if err != nil {
+		code, _, err := service.CreateProject(context)
+		if err != nil || code != http.StatusOK {
 			context.JSON(code, gin.H{
 				"error": err.Error(),
 			})
 		} else {
-			context.JSON(code, project)
+			context.Redirect(http.StatusMovedPermanently, "/projects")
 		}
 	})
 
@@ -34,7 +34,7 @@ func RegisterProjectRouters(router *gin.Engine) {
 	})
 
 	router.GET("/projects/all", service.AuthMiddleware(), func(context *gin.Context) {
-		projects, err := repository.FindAll()
+		projects, err := repository.FindAllProject()
 		if err != nil {
 			context.JSON(http.StatusInternalServerError, gin.H{
 				"error": err.Error(),
