@@ -8,7 +8,7 @@ type User struct {
 	Name         string    `gorm:"unique;column:name" json:"name" form:"name"`
 	Email        string    `gorm:"unique;column:email" json:"email" form:"email"`
 	Phone        string    `gorm:"unique;column:phone" json:"phone" form:"phone"`
-	HashPassword string    `gorm:"column:hash_password"`
-	Password     string    `gorm:"-" form:"password"`
+	HashPassword string    `gorm:"column:hash_password" json:"-"`
+	Password     string    `gorm:"-" form:"password" json:"-"`
 	Projects     []Project `gorm:"many2many:project_users;" json:"-"`
 }

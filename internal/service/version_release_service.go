@@ -10,21 +10,27 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateProject(c *gin.Context) (int, *models.Project, error) {
-	var project models.Project
-	if err := c.Bind(&project); err != nil {
+func CreateVersionRelease(c *gin.Context) (int, *models.VersionRelease, error) {
+	var version_release models.VersionRelease
+	if err := c.Bind(&version_release); err != nil {
 		return http.StatusInternalServerError, nil, err
 	}
 
-	existingProject, err := repository.FindProjectByName(project.Name)
+	existingVersionRelease, err := repository.FindVersionReleaseByName(version_release.VersionName)
 
-	if existingProject != nil {
+	if existingVersionRelease != nil {
 		return http.StatusBadRequest, nil, gorm.ErrDuplicatedKey
 	}
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return http.StatusInternalServerError, nil, err
 	}
+
+	project, err := repository.FindProjectById(version_release.ProjectID)
+	if err != nil {
+		return http.StatusBadRequest, nil, err
+	}
+	version_release.Project = *project
 
 	userId, err := c.Cookie("userId")
 	if err != nil {
@@ -34,21 +40,21 @@ func CreateProject(c *gin.Context) (int, *models.Project, error) {
 	if err != nil || uid == 0 {
 		return http.StatusInternalServerError, nil, err
 	}
-	project.UserId = uint(uid)
-	user, err := repository.FindUserById(project.UserId)
+	version_release.UserId = uint(uid)
+	user, err := repository.FindUserById(version_release.UserId)
 	if err != nil {
 		return http.StatusInternalServerError, nil, err
 	}
-	project.User = *user
-	createdProject, err := repository.CreateProject(&project)
-	if err != nil {
-		return http.StatusInternalServerError, nil, err
-	}
-
-	createdProject, err = repository.AddMemberToProject(createdProject, user)
+	version_release.User = *user
+	createdVersionRelease, err := repository.CreateVersionRelease(&version_release)
 	if err != nil {
 		return http.StatusInternalServerError, nil, err
 	}
 
-	return http.StatusOK, createdProject, nil
+	_, err = repository.AddVersionReleaseToProject(project, createdVersionRelease)
+	if err != nil {
+		return http.StatusInternalServerError, nil, err
+	}
+
+	return http.StatusOK, createdVersionRelease, nil
 }
