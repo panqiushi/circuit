@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html data-theme="{{ .Theme }}">
+  <head>
+    <title>{{ .VersionReleaseCreate }}</title>
+    {{ template "meta_head.html" . }}
+  </head>
+
+  <body>
+    <div class="flex h-screen">
+      {{ template "side_menu.html" . }}
+
+      <div class="flex flex-col flex-1 overflow-hidden">
+        {{ template "nav_main.html" . }}
+
+        <main class="flex-1 p-5">
+          <div>
+            <form
+              method="POST"
+              id="create-version_release-form"
+              hx-boost="true"
+              action="/version_release"
+            >
+              <span class="text-sm">{{ .VersionName }}{{ .Colon }}</span>
+              <input
+                value=""
+                name="version_name"
+                type="text"
+                placeholder="{{ .VersionName }}"
+                class="input input-bordered w-full mt-2 mb-2"
+              />
+              <span class="text-sm">{{ .Project }}{{ .Colon }}</span>
+              <!-- TODO: project select options -->
+            </form>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

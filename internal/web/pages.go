@@ -1,6 +1,11 @@
 package web
 
 import (
+	"encoding/json"
+	"log"
+	"os"
+
+	consts "circuit.io/circuit/internal/const"
 	"circuit.io/circuit/internal/repository"
 	"circuit.io/circuit/internal/service"
 
@@ -9,6 +14,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 )
+
+var i18nMessage gin.H = nil
 
 func RegisterWebPageRoutes(router *gin.Engine) {
 
@@ -43,28 +50,35 @@ func RegisterWebPageRoutes(router *gin.Engine) {
 		data["Projects"] = projects
 		context.HTML(http.StatusOK, "projects.html", data)
 	})
+
+	router.GET("/version_release/create", service.AuthMiddleware(), func(context *gin.Context) {
+		localizer := context.MustGet("localizer").(*i18n.Localizer)
+		data := getData(*localizer)
+		context.HTML(http.StatusOK, "version_release_create.html", data)
+	})
 }
 
 func getData(localizer i18n.Localizer) gin.H {
-	return gin.H{
-		"Theme":             "dark",
-		"SignIn":            localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "sign_in"}),
-		"SignUp":            localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "sign_up"}),
-		"Welcome":           localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "welcome"}),
-		"Or":                localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "or"}),
-		"Email":             localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "email"}),
-		"Password":          localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "password"}),
-		"AlreadHaveAccount": localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "already_have_account"}),
-		"Home":              localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "home"}),
-		"Dashboard":         localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "dashboard"}),
-		"VersionRelease":    localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "version_release"}),
-		"Username":          localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "username"}),
-		"ProjectName":       localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "project_name"}),
-		"ProjectDesc":       localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "project_description"}),
-		"CreateProject":     localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "create_project"}),
-		"Project":           localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "project"}),
-		"ProjectList":       localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "project_list"}),
-		"Confirm":           localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "confirm"}),
+	if i18nMessage != nil {
+		return i18nMessage
 	}
 
+	data, err := os.ReadFile(consts.MUST_LOAD_I18N_FILE)
+	if err != nil {
+		log.Fatalf("Failed to load file: %s", err)
+	}
+
+	var jsonData map[string]string
+	err = json.Unmarshal(data, &jsonData)
+	if err != nil {
+		log.Fatalf("Failed to unmarshal JSON data: %s", err)
+	}
+
+	hData := gin.H{}
+	for key := range jsonData {
+		hData[key] = localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: key})
+	}
+
+	i18nMessage = hData
+	return i18nMessage
 }

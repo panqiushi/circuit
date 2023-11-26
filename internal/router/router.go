@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 
 	"circuit.io/circuit/internal/api"
+	consts "circuit.io/circuit/internal/const"
 	"circuit.io/circuit/internal/web"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/text/language"
@@ -20,7 +21,7 @@ func init() {
 
 	bundle := i18n.NewBundle(language.Chinese)
 	bundle.RegisterUnmarshalFunc("json", json.Unmarshal)
-	bundle.MustLoadMessageFile("./locales/zh-CN.json")
+	bundle.MustLoadMessageFile(consts.MUST_LOAD_I18N_FILE)
 
 	Router.Use(func(c *gin.Context) {
 		acceptLanguage := c.GetHeader("Accept-Language")
