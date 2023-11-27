@@ -54,6 +54,13 @@ func RegisterWebPageRoutes(router *gin.Engine) {
 	router.GET("/version_release/create", service.AuthMiddleware(), func(context *gin.Context) {
 		localizer := context.MustGet("localizer").(*i18n.Localizer)
 		data := getData(*localizer)
+		projects, err := repository.FindAllProject()
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+		}
+		data["Projects"] = projects
 		context.HTML(http.StatusOK, "version_release_create.html", data)
 	})
 }
