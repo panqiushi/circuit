@@ -29,7 +29,7 @@
                 class="input input-bordered w-full mt-2 mb-2"
               />
               <span class="text-sm">{{ .Project }}{{ .Colon }}</span>
-              <select class="select select-bordered w-full mt-2 mb-2">
+              <select name="project_id" type="number" class="select select-bordered w-full mt-2 mb-2">
                 {{ range .Projects }}
                 <option value="{{ .ID }}">{{ .Name }}</option>
                 {{ end }}
@@ -54,7 +54,9 @@
                 </div>
                 <input
                   datepicker
+                  datepicker-format="yyyy-mm-dd"
                   datepicker-buttons
+                  name="release_date"
                   type="text"
                   class="mt-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Select date"
@@ -91,11 +93,24 @@
               <span class="text-sm">{{ .Artifactory }}{{ .Colon }}</span>
               <input
                 value=""
-                name="aritfactory"
+                name="artifactory"
                 type="text"
                 placeholder="{{ .Artifactory }}"
                 class="input input-bordered w-full mt-2 mb-2"
               />
+
+              <span class="text-sm">{{ .ReleaseNote }}{{ .Colon }}</span>
+              <textarea
+                value=""
+                name="release_note"
+                type="textarea"
+                placeholder="{{ .ReleaseNote }}"
+                class="input input-bordered w-full mt-2 mb-2"
+              ></textarea>
+
+              <button submit class="btn btn-primary w-full mt-10">
+                {{ .Confirm }}
+              </button>
             </form>
           </div>
         </main>
