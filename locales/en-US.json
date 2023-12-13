@@ -1,7 +1,12 @@
 {
+    "AppName": "CIRCUIT",
     "Colon": ":",
+    "DontHaveAccount": "Don't have an account yet?",
     "SignIn": "Sign In",
     "SignUp": "Sign Up",
+    "RememberMe": "RemenberMe",
+    "ValidateEmailWarning": "Please include a valid email address",
+    "ValidatePasswordWarning": "8+ characters required",
     "Welcome": "Welcome to circuit!",
     "Or": "or",
     "Username": "Username",

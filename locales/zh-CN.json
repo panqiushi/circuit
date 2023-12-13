@@ -1,7 +1,12 @@
 {
+    "AppName": "CIRCUIT",
     "Colon": "：",
+    "DontHaveAccount": "还没有账号？",
     "SignIn": "登录",
     "SignUp": "注册",
+    "RememberMe": "记住我",
+    "ValidateEmailWarning": "请输入有效的邮箱",
+    "ValidatePasswordWarning": "请输入至少8位有效密码",
     "Welcome": "欢迎",
     "Or": "或",
     "Username": "用户名",
