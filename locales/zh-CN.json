@@ -2,6 +2,7 @@
     "AppName": "CIRCUIT",
     "Colon": "：",
     "DontHaveAccount": "还没有账号？",
+    "AlreadHaveAccount": "已有账号？",
     "SignIn": "登录",
     "SignUp": "注册",
     "RememberMe": "记住我",
