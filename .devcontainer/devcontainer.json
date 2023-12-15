@@ -14,7 +14,8 @@
 				"golang.go",
 				"alexcvzz.vscode-sqlite",
 				"GitHub.copilot-chat",
-				"GitHub.copilot"
+				"GitHub.copilot",
+				"bradlc.vscode-tailwindcss"
 			]
 		}
 	}
