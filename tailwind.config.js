@@ -1,5 +1,6 @@
 module.exports = {
-  content: ['./templates/**/*.html', 'node_modules/preline/dist/*.js'],
+  // content: ['./templates/**/*.html', 'node_modules/preline/dist/*.js'],
+  content: ['./frontend/**/*.html', './frontend/**/*.js'],
   theme: {
     extend: {},
   },
