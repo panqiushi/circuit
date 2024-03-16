@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { FormError } from '#ui/types'
 
+const { locale } = useI18n()
+
 const fields = [{
     name: 'email',
     type: 'text',
