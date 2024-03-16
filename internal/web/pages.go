@@ -7,6 +7,7 @@ import (
 	"os"
 
 	consts "circuit.io/circuit/internal/const"
+	"circuit.io/circuit/internal/service"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
@@ -16,7 +17,7 @@ var i18nMessage gin.H = nil
 
 func RegisterWebPageRoutes(router *gin.Engine) {
 
-	router.GET("/", func(context *gin.Context) {
+	router.GET("/", service.AuthMiddleware(), func(context *gin.Context) {
 		context.Redirect(http.StatusMovedPermanently, "/f")
 	})
 

@@ -32,27 +32,15 @@ func init() {
 
 	// Router.LoadHTMLGlob("templates/**/*")
 	// Router.Static("/assets", "./assets")
-	// Router.Static("/pages", "./frontend/dist")
+
 	apiGroup := Router.Group("/a")
+	apiGroup.GET("", func(context *gin.Context) {
+		context.String(200, "hello circuit!")
+	})
 	api.RegisterUserRoutes(apiGroup)
 	api.RegisterProjectRouters(apiGroup)
 	api.RegisterVersionReleaseRoutes(apiGroup)
 	web.RegisterWebPageRoutes(Router)
 
-	Router.Static("/_nuxt", "./frontend/dist/_nuxt")
-	Router.Static("/_payload.json", "./frontend/dist/_payload.json")
-	// Router.Static("/login", "./frontend/dist/login")
-	// Router.Static("/app/user", "./frontend/dist/user")
-	Router.Static("/f", "./frontend/dist")
-	// Router.StaticFS("/f", gin.Dir("./frontend/dist", true))
-
-	// Router.NoRoute(func(c *gin.Context) {
-	// 	dir, file := path.Split(c.Request.RequestURI)
-	// 	ext := filepath.Ext(file)
-	// 	if dir == "/" && file == "" || ext == "" {
-	// 		c.File("./frontend/dist")
-	// 	} else {
-	// 		c.File("./frontend/dist" + c.Request.RequestURI)
-	// 	}
-	// })
+	Router.StaticFS("/f", gin.Dir("./frontend/.output/public", true))
 }
