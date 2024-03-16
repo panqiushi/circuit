@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterUserRoutes(router *gin.Engine) {
+func RegisterUserRoutes(router *gin.RouterGroup) {
 	router.POST("/user", func(context *gin.Context) {
 		user, err := service.CreateUserIfNecessary(context)
 		if err != nil {

@@ -11,7 +11,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		// Check if the user is authenticated
 		if _, err := c.Cookie("token"); err != nil {
 			// c.AbortWithStatus(http.StatusUnauthorized)
-			c.Redirect(http.StatusPermanentRedirect, "/login")
+			c.Redirect(http.StatusPermanentRedirect, "/f/login")
 			return
 		}
 

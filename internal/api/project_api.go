@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterProjectRouters(router *gin.Engine) {
+func RegisterProjectRouters(router *gin.RouterGroup) {
 	router.POST("/project", service.AuthMiddleware(), func(context *gin.Context) {
 		code, _, err := service.CreateProject(context)
 		if err != nil || code != http.StatusOK {

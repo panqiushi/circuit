@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterVersionReleaseRoutes(router *gin.Engine) {
+func RegisterVersionReleaseRoutes(router *gin.RouterGroup) {
 	router.POST("/version_release", service.AuthMiddleware(), func(context *gin.Context) {
 		code, versionRelease, err := service.CreateVersionRelease(context)
 		if err != nil || code != http.StatusOK {
