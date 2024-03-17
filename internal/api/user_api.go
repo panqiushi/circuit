@@ -32,7 +32,7 @@ func RegisterUserRoutes(router *gin.RouterGroup) {
 			}
 			delete(data, "Password")
 			delete(data, "HashPassword")
-			context.Redirect(http.StatusMovedPermanently, "/login")
+			context.Redirect(http.StatusMovedPermanently, "/f/login")
 		}
 	})
 
@@ -43,7 +43,8 @@ func RegisterUserRoutes(router *gin.RouterGroup) {
 				"error": err.Error(),
 			})
 		} else {
-			context.Redirect(http.StatusMovedPermanently, "/dash")
+			// context.Redirect(http.StatusMovedPermanently, "/f/dashboard")
+			context.JSON(code, gin.H{"message": "Login successful"})
 		}
 	})
 

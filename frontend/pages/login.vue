@@ -1,62 +1,54 @@
 <script setup lang="ts">
-import type { FormError } from '#ui/types'
+import { object, string, type InferType } from 'yup'
+import type { FormSubmitEvent } from '#ui/types'
 
-const { locale } = useI18n()
+const router = useRouter()
+const apiFetch = $fetch.create({ baseURL: '/a' })
+const gotoDashboard = () => router.push('/dashboard')
 
-const fields = [{
-    name: 'email',
-    type: 'text',
-    label: 'Email',
-    placeholder: 'Enter your email'
-}, {
-    name: 'password',
-    label: 'Password',
-    type: 'password',
-    placeholder: 'Enter your password'
-}]
+const schema = object({
+    email: string().email('Invalid email').required('Required'),
+    password: string()
+        .min(8, 'Must be at least 8 characters')
+        .required('Required')
+})
 
-const validate = (state: any) => {
-    const errors: FormError[] = []
-    if (!state.email) errors.push({ path: 'email', message: 'Email is required' })
-    if (!state.password) errors.push({ path: 'password', message: 'Password is required' })
-    return errors
-}
+type Schema = InferType<typeof schema>
 
-const providers = [{
-    label: 'Continue with GitHub',
-    icon: 'i-simple-icons-github',
-    color: 'white' as const,
-    click: () => {
-        console.log('Redirect to GitHub')
-    }
-}]
+const state = reactive({
+    email: undefined,
+    password: undefined
+})
 
-function onSubmit(data: any) {
-    console.log('Submitted', data)
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+    // Do something with event.data
+    console.log(event.data)
+    apiFetch('/a/login', {
+        method: 'POST',
+        body: event.data
+    }).then((res) => {
+        console.log(res)
+        gotoDashboard()
+    })
 }
 </script>
 
-<!-- eslint-disable vue/multiline-html-element-content-newline -->
-<!-- eslint-disable vue/singleline-html-element-content-newline -->
 <template>
-    <div class="flex justify-center items-center h-screen">
-        <UCard class="max-w-sm w-full">
-            <UAuthForm :fields="fields" :validate="validate" :providers="providers" title="Welcome back!" align="top"
-                icon="i-heroicons-lock-closed" :ui="{ base: 'text-center', footer: 'text-center' }" @submit="onSubmit">
-                <template #description>
-                    Don't have an account? <NuxtLink to="/" class="text-primary font-medium">Sign up</NuxtLink>.
-                </template>
+    <div class="flex justify-center items-center h-screen w-full">
+        <UCard class="w-1/2">
+            <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+                <UFormGroup label="Email" name="email">
+                    <UInput v-model="state.email" />
+                </UFormGroup>
 
-                <template #password-hint>
-                    <NuxtLink to="/" class="text-primary font-medium">Forgot password?</NuxtLink>
-                </template>
+                <UFormGroup label="Password" name="password">
+                    <UInput v-model="state.password" type="password" />
+                </UFormGroup>
 
-                <template #footer>
-                    By signing in, you agree to our <NuxtLink to="/" class="text-primary font-medium">Terms of Service
-                    </NuxtLink>.
-                </template>
-            </UAuthForm>
+                <UButton type="submit">
+                    Submit
+                </UButton>
+            </UForm>
         </UCard>
     </div>
-
 </template>
