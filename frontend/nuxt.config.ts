@@ -9,8 +9,8 @@ export default defineNuxtConfig({
     vueI18n: './i18n.config.ts',
   },
   nitro: {
-    routeRules: {
-      '/a/': { proxy: 'http://localhost:8080' },
-    }
-  }
+    devProxy: {
+      '/a/': 'http://localhost:8080/a/',
+    },
+  },
 });
