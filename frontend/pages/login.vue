@@ -3,8 +3,8 @@ import { object, string, type InferType } from 'yup'
 import type { FormSubmitEvent } from '#ui/types'
 
 const router = useRouter()
-const apiFetch = $fetch.create({ baseURL: '/a' })
 const gotoDashboard = () => router.push('/dashboard')
+const gotoSignup = () => router.push('/signup')
 
 const schema = object({
     email: string().email('Invalid email').required('Required'),
@@ -23,7 +23,7 @@ const state = reactive({
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     // Do something with event.data
     console.log(event.data)
-    apiFetch('/a/login', {
+    $apiHelper('/a/login', {
         method: 'POST',
         body: event.data
     }).then((res) => {
