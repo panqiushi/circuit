@@ -35,7 +35,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 <template>
     <div class="flex justify-center items-center h-screen w-full">
-        <!-- <UCard class="w-1/2">
+        <UCard class="w-1/3">
+            <h3 class="text-2xl font-semibold text-center mb-4">Signup</h3>
+            <span class="text-center block mb-4">
+                Already have an account? <a @click="gotoLogin" class="text-blue-500 cursor-pointer">Login</a></span>
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
                 <UFormGroup label="Email" name="email">
                     <UInput v-model="state.email" />
@@ -48,6 +51,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 <UButton type="submit">
                     Submit
                 </UButton>
-            </UForm> -->
+            </UForm>
+        </UCard>
     </div>
 </template>
