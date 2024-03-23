@@ -16,8 +16,8 @@ import (
 )
 
 type LoginUser struct {
-	Email    string `json:"email" form:"email"`
-	Phone    string `json:"phone"`
+	Email string `json:"email" form:"email"`
+	// Phone    string `json:"phone"`
 	Username string `json:"username" form:"username"`
 	Password string `json:"password" form:"password"`
 }
@@ -48,10 +48,10 @@ func CreateUserIfNecessary(c *gin.Context) (*models.User, error) {
 		return nil, err
 	}
 
-	exixtedUser, err = repository.FindUserByFieldAndValue("phone", user.Phone)
-	if (err != nil && err.Error() != consts.RECORD_NOT_FOUND) || exixtedUser != nil {
-		return nil, err
-	}
+	// exixtedUser, err = repository.FindUserByFieldAndValue("phone", user.Phone)
+	// if (err != nil && err.Error() != consts.RECORD_NOT_FOUND) || exixtedUser != nil {
+	// 	return nil, err
+	// }
 
 	exixtedUser, err = repository.FindUserByFieldAndValue("name", user.Name)
 	if (err != nil && err.Error() != consts.RECORD_NOT_FOUND) || exixtedUser != nil {
@@ -79,10 +79,10 @@ func LoginHandler(c *gin.Context) (int, error) {
 
 	field := "email"
 	value := loginUser.Email
-	if loginUser.Email == "" {
-		field = "phone"
-		value = loginUser.Phone
-	}
+	// if loginUser.Email == "" {
+	// 	field = "phone"
+	// 	value = loginUser.Phone
+	// }
 
 	user, err := repository.FindUserByFieldAndValue(field, value)
 	if err != nil && err.Error() != consts.RECORD_NOT_FOUND {
