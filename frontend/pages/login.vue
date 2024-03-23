@@ -38,7 +38,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UCard class="w-1/3">
             <h3 class="text-2xl font-semibold text-center mb-4">Login</h3>
             <span class="text-center block mb-4">
-                Don't have an account? <a @click="gotoSignup" class="text-blue-500 cursor-pointer">Signup</a></span>o
+                Don't have an account? <a @click="gotoSignup" class="text-blue-500 cursor-pointer">Signup</a></span>
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
                 <UFormGroup label="Email" name="email">
                     <UInput v-model="state.email" />

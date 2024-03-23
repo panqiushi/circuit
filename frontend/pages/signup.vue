@@ -15,6 +15,7 @@ const schema = object({
 type Schema = InferType<typeof schema>
 
 const state = reactive({
+    name: undefined,
     email: undefined,
     password: undefined
 })
@@ -23,9 +24,12 @@ const state = reactive({
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     // Do something with event.data
     console.log(event.data)
-    $apiHelper('/a/signup', {
+    $apiHelper('/a/user', {
         method: 'POST',
-        body: event.data
+        body: event.data,
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }).then((res) => {
         console.log(res)
         gotoLogin()
@@ -40,6 +44,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <span class="text-center block mb-4">
                 Already have an account? <a @click="gotoLogin" class="text-blue-500 cursor-pointer">Login</a></span>
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+                <UFormGroup label="Username" name="name">
+                    <UInput v-model="state.name" />
+                </UFormGroup>
+
                 <UFormGroup label="Email" name="email">
                     <UInput v-model="state.email" />
                 </UFormGroup>
