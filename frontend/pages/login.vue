@@ -22,10 +22,13 @@ const state = reactive({
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     // Do something with event.data
-    console.log(event.data)
+    console.log("event.data", event.data)
     $apiHelper('/a/login', {
         method: 'POST',
-        body: event.data
+        body: event.data,
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }).then((res) => {
         console.log(res)
         gotoDashboard()
