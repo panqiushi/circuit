@@ -6,6 +6,8 @@ const router = useRouter()
 const gotoDashboard = () => router.push('/dashboard')
 const gotoSignup = () => router.push('/signup')
 
+const cookie = useCookie("Set-Cookie")
+
 const schema = object({
     email: string().email('Invalid email').required('Required'),
     password: string()
@@ -22,16 +24,24 @@ const state = reactive({
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     console.log("event.data", event.data)
-    $apiHelper('/a/login', {
+    $apiHelper.raw('/a/login', {
         method: 'POST',
         body: event.data,
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then((res) => {
-        console.log(res)
-        gotoDashboard()
+    }).then((resp: any) => {
+        console.log(resp)
+        if (resp.status !== 200) {
+            alert('Invalid credentials')
+            return
+        }
+        console.log("resp.headers.token", resp.headers)
+        const token = resp.headers.token
+        localStorage.setItem('token', token)
+        // gotoDashboard()
     })
+    
 }
 </script>
 
