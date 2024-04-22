@@ -20,9 +20,7 @@ const state = reactive({
     password: undefined
 })
 
-// TODO: not the same as login
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    // Do something with event.data
     console.log(event.data)
     $apiHelper('/a/user', {
         method: 'POST',
