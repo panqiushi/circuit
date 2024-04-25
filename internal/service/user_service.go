@@ -27,6 +27,13 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
+type AuthResponse struct {
+	Token        string `json:"token"`
+	RefreshToken string `json:"refreshToken"`
+	Username     string `json:"username"`
+	Uid          string `json:"uid"`
+}
+
 var jwtKey = []byte("73RnG8x2hLs6YpDfWvQ9Uz1cVbM5XtJnKw4FgSdAeZoPqCtH6rL0aVtB1iZw3lNfJ7sKgDm1fVhA8tH7wBfYsE9dM2hG8dQ4oZsR")
 
 func CreateUserIfNecessary(c *gin.Context) (*models.User, error) {
@@ -71,10 +78,10 @@ func CreateUserIfNecessary(c *gin.Context) (*models.User, error) {
 	return createdUser, nil
 }
 
-func LoginHandler(c *gin.Context) (int, error) {
+func LoginHandler(c *gin.Context) (int, AuthResponse, error) {
 	var loginUser LoginUser
 	if err := c.Bind(&loginUser); err != nil {
-		return http.StatusBadRequest, err
+		return http.StatusBadRequest, AuthResponse{}, err
 	}
 
 	field := "email"
@@ -86,11 +93,11 @@ func LoginHandler(c *gin.Context) (int, error) {
 
 	user, err := repository.FindUserByFieldAndValue(field, value)
 	if err != nil && err.Error() != consts.RECORD_NOT_FOUND {
-		return http.StatusNotFound, err
+		return http.StatusNotFound, AuthResponse{}, err
 	}
 
 	if !CheckPassword(loginUser.Password, user.HashPassword) {
-		return http.StatusUnauthorized, errors.New("invalid password")
+		return http.StatusUnauthorized, AuthResponse{}, errors.New("invalid password")
 	}
 
 	expirationTime := time.Now().Add(5 * time.Minute)
@@ -104,13 +111,13 @@ func LoginHandler(c *gin.Context) (int, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
-		return http.StatusInternalServerError, errors.New("failed to generate token")
+		return http.StatusInternalServerError, AuthResponse{}, errors.New("failed to generate token")
 	}
 
 	c.SetCookie("token", tokenString, 3600*24, "/", "", false, true)
 	c.SetCookie("userName", user.Name, 3600*24, "/", "", false, true)
 	c.SetCookie("userId", strconv.FormatUint(uint64(user.ID), 10), 3600*24, "/", "", false, true)
-	return http.StatusOK, nil
+	return http.StatusOK, AuthResponse{Token: tokenString, RefreshToken: tokenString, Username: user.Name, Uid: strconv.FormatUint(uint64(user.ID), 10)}, nil
 }
 
 func HashPassword(password string) (string, error) {

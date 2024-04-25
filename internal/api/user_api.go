@@ -37,14 +37,14 @@ func RegisterUserRoutes(router *gin.RouterGroup) {
 	})
 
 	router.POST("/login", func(context *gin.Context) {
-		code, err := service.LoginHandler(context)
+		code, auth, err := service.LoginHandler(context)
 		if err != nil {
 			context.JSON(code, gin.H{
 				"error": err.Error(),
 			})
 		} else {
 			// context.Redirect(http.StatusMovedPermanently, "/f/dashboard")
-			context.JSON(code, gin.H{"message": "Login successful"})
+			context.JSON(code, gin.H{"message": "Login successful", "auth": auth})
 		}
 	})
 

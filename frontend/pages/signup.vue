@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { object, string, type InferType } from 'yup'
 import type { FormSubmitEvent } from '#ui/types'
+import { definePageMeta } from '#imports'
+
+definePageMeta({
+    auth: false
+})
 
 const router = useRouter()
 const gotoLogin = () => router.push('/login')
