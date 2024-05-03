@@ -15,7 +15,8 @@
 				"alexcvzz.vscode-sqlite",
 				"GitHub.copilot-chat",
 				"GitHub.copilot",
-				"bradlc.vscode-tailwindcss"
+				"bradlc.vscode-tailwindcss",
+				"eamodio.gitlens"
 			]
 		}
 	}
