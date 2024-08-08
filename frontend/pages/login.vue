@@ -2,16 +2,9 @@
 import { object, string, type InferType } from 'yup'
 import type { FormSubmitEvent } from '#ui/types'
 
-import { definePageMeta, useAuth } from '#imports'
-
-// const { signIn, token, data, status, lastRefreshedAt } = useAuth()
-
 const router = useRouter()
 const gotoDashboard = () => router.push('/dashboard')
 const gotoSignup = () => router.push('/signup')
-
-
-// const cookie = useCookie("Set-Cookie")
 
 const schema = object({
     email: string().email('Invalid email').required('Required'),
@@ -27,24 +20,19 @@ const state = reactive({
     password: undefined
 })
 
-definePageMeta({
-    auth: {
-        unauthenticatedOnly: true,
-        navigateAuthenticatedTo: '/dashboard'
-    }
-})
-
-const { signIn } = useAuth()
-async function signInWithCredentials(event: FormSubmitEvent<Schema>) {
-    try {
-        await signIn(event.data, {callbackUrl: '/dashboard', external: false})
-        console.log('Signed in')
-        // gotoDashboard()
-    } catch (error) {
-        console.error(error)
-    }
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+    console.log("event.data", event.data)
+    $apiHelper('/a/login', {
+        method: 'POST',
+        body: event.data,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((res) => {
+        console.log(res)
+        gotoDashboard()
+    })
 }
-
 </script>
 
 <template>
@@ -53,7 +41,7 @@ async function signInWithCredentials(event: FormSubmitEvent<Schema>) {
             <h3 class="text-2xl font-semibold text-center mb-4">Login</h3>
             <span class="text-center block mb-4">
                 Don't have an account? <a @click="gotoSignup" class="text-blue-500 cursor-pointer">Signup</a></span>
-            <UForm :schema="schema" :state="state" class="space-y-4" @submit="signInWithCredentials">
+            <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
                 <UFormGroup label="Email" name="email">
                     <UInput v-model="state.email" />
                 </UFormGroup>

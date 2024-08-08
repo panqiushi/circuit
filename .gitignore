@@ -6,6 +6,7 @@ vendor
 *.exe
 *.exe~
 __*bin*
+main
 
 node_modules
 tmp
